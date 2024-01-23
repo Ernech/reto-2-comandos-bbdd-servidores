@@ -1,6 +1,8 @@
+import controllers.GoogleScholarController;
 
 public class Main {
     public static void main(String [] args){
-        System.out.println("Hello from java");
+       // GoogleScholarController.fetchDataFromApi("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0");
+        GoogleScholarController.fetchDataFromApiAsync("https://pokeapi.co/api/v2/pokemon?limit=10&offset=0");
     }
 }
