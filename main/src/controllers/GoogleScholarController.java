@@ -1,11 +1,14 @@
 package controllers;
 
+
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GoogleScholarController {
 
@@ -18,6 +21,7 @@ public class GoogleScholarController {
                     .build();
 
             HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+            ObjectMapper objectMapper = new ObjectMapper();
             System.out.println(response.body());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -33,11 +37,13 @@ public class GoogleScholarController {
                     .build();
 
             HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+
+                System.out.println(response.body());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        });
+
+        }).join();
 
     }
 
