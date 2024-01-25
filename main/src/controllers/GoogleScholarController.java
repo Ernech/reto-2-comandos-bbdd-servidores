@@ -48,6 +48,6 @@ public class GoogleScholarController {
         this.model = model;
     }
     public void updateView(){
-        view.showResults(this.model.getResults());
+        view.showOrganicResults(this.model.getOrganicResults());
     }
 }

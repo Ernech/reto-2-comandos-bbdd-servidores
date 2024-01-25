@@ -11,7 +11,7 @@ public class Main {
         GoogleScholarController googleScholarController = new GoogleScholarController(view,result);
        CompletableFuture<Void> future= googleScholarController
                .fetchDataFromApiAsync("https://serpapi.com/search.json?engine=google_scholar&q=biology&start=10&num=5&api_key=ff6cee49548b06aba31daa65961296ba3f39210a8bff7a2a0c86c08188c7e919");
-       future.thenRun(()-> System.out.println("Process finished")).join();
+       future.thenRun(()-> googleScholarController.updateView()).join();
 
     }
 }
