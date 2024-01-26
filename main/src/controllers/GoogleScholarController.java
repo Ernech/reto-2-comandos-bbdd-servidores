@@ -1,7 +1,5 @@
 package controllers;
 
-
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -27,9 +25,10 @@ public class GoogleScholarController {
         return CompletableFuture.runAsync(()->{
             try {
             HttpClient client = HttpClient.newHttpClient();
-
+            URI finalUrl = URI.create(url).resolve(String.format("search.json?engine=%s&q=%s&start=%s&num=%s&api_key=%s"
+                    ,"google_scholar","Universidad%20de%20méxico","0","10",""));
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
+                    .uri(finalUrl)
                     .build();
 
             HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());

@@ -1,5 +1,8 @@
 package models.googlescholar;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchParameters {
     private String engine;
     private String q;

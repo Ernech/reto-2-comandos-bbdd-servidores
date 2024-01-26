@@ -1,7 +1,9 @@
 package models.googlescholar;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OtherPages {
     @JsonProperty("1")
     private String _1;

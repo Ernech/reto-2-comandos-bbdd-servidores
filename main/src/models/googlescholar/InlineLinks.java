@@ -1,7 +1,9 @@
 package models.googlescholar;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InlineLinks {
     @JsonProperty("serpapi_cite_link")
     private String serpapiCiteLink;
@@ -14,6 +16,8 @@ public class InlineLinks {
     private Versions versions;
     @JsonProperty("cached_page_link")
     private String cachedPageLink;
+    @JsonProperty("html_version")
+    private String htmlVersion;
 
     public String getSerpapiCiteLink() {
         return serpapiCiteLink;
@@ -61,5 +65,9 @@ public class InlineLinks {
 
     public void setCachedPageLink(String cachedPageLink) {
         this.cachedPageLink = cachedPageLink;
+    }
+
+    public String getHtmlVersion(){
+        return this.htmlVersion;
     }
 }
