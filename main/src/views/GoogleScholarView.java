@@ -1,6 +1,5 @@
 package views;
 
-import models.Result;
 import models.googlescholar.Author;
 import models.googlescholar.OrganicResult;
 
