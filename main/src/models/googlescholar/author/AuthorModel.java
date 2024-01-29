@@ -11,7 +11,7 @@ public class AuthorModel {
     private SearchMetadata searchMetadata;
     @JsonProperty("search_parameters")
     private SearchParameters searchParameters;
-    @JsonProperty("author_info")
+    @JsonProperty("author")
     private AuthorInfo authorInfo;
     private List<Article> articles;
     @JsonProperty("cited_by")

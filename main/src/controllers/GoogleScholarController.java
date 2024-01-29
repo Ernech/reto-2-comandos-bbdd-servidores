@@ -56,17 +56,17 @@ public class GoogleScholarController {
     public CompletableFuture<Void> fetchDataFromAuthorApi(String url, String authorId){
             return CompletableFuture.runAsync(()->{
                try{
-                URI finalUrl = URI.create(url).resolve(String.format("search.json?engine=%s&author_id=%s&api_key=%s"
+                    URI finalUrl = URI.create(url).resolve(String.format("search.json?engine=%s&author_id=%s&api_key=%s"
                         ,"google_scholar_author",
                         authorId,
-                        ""));
-                HttpRequest httpRequest = HttpRequest
+                        "ff6cee49548b06aba31daa65961296ba3f39210a8bff7a2a0c86c08188c7e919"));
+                    HttpRequest httpRequest = HttpRequest
                         .newBuilder().uri(finalUrl).build();
-
                     HttpResponse<String> response = this.client.send(httpRequest,HttpResponse.BodyHandlers.ofString());
-                   ObjectMapper objectMapper = new ObjectMapper();
-                   AuthorModel authorModel = objectMapper.readValue(response.body(),AuthorModel.class);
-                   System.out.println(authorModel);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    AuthorModel authorModel = objectMapper.readValue(response.body(),AuthorModel.class);
+                    this.setAuthorModel(authorModel);
+
                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -79,6 +79,7 @@ public class GoogleScholarController {
         this.model = model;
     }
     private void setAuthorModel(AuthorModel model) {this.authorModel=model;}
+    public AuthorModel getAuthorModel() {return this.authorModel;}
     public void updateView(){
         view.showOrganicResults(this.model.getOrganicResults());
     }
