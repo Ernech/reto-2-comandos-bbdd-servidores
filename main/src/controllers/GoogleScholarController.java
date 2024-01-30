@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import models.googlescholar.GoogleScholarModel;
 import models.googlescholar.author.AuthorModel;
+import resources.Constants;
 import views.GoogleScholarView;
 
 public class GoogleScholarController {
@@ -34,8 +35,12 @@ public class GoogleScholarController {
     public CompletableFuture<Void> fetchDataFromApiAsync(String url){
         return CompletableFuture.runAsync(()->{
             try {
-            URI finalUrl = URI.create(url).resolve(String.format("search.json?engine=%s&q=%s&start=%s&num=%s&api_key=%s"
-                    ,"google_scholar","Universidad%20de%20méxico","0","10","ff6cee49548b06aba31daa65961296ba3f39210a8bff7a2a0c86c08188c7e919"));
+
+            URI finalUrl = URI.create(url).resolve(String.format("search.json?engine=%s&q=%s&start=%s&num=%s&api_key=%s",
+                    Constants.GOOGLE_SCHOLAR_ENGINE,
+                    "Universidad%20de%20méxico",
+                    "0","10",
+                    Constants.API_KEY.trim()));
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(finalUrl)
                     .build();
@@ -57,9 +62,9 @@ public class GoogleScholarController {
             return CompletableFuture.runAsync(()->{
                try{
                     URI finalUrl = URI.create(url).resolve(String.format("search.json?engine=%s&author_id=%s&api_key=%s"
-                        ,"google_scholar_author",
+                        ,Constants.GOOGLE_SCHOLAR_AUTHOR_ENGINE,
                         authorId,
-                        "ff6cee49548b06aba31daa65961296ba3f39210a8bff7a2a0c86c08188c7e919"));
+                            Constants.API_KEY.trim()));
                     HttpRequest httpRequest = HttpRequest
                         .newBuilder().uri(finalUrl).build();
                     HttpResponse<String> response = this.client.send(httpRequest,HttpResponse.BodyHandlers.ofString());

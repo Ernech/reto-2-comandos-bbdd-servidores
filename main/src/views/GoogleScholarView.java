@@ -13,11 +13,11 @@ import java.util.concurrent.CompletableFuture;
 public class GoogleScholarView {
 
     GoogleScholarController googleScholarController = new GoogleScholarController(this,new AuthorModel());
-    JTextArea jTextArea = new JTextArea(40,80);
+    JTextArea jTextArea = new JTextArea(30,100);
     JScrollPane jScrollPane = new JScrollPane(jTextArea);
     public void showOrganicResults(List<OrganicResult> results){
         for(OrganicResult result:results){
-            jTextArea.append("==================================\n");
+            jTextArea.append("=========================================================================\n");
             jTextArea.append("Title: ".concat(result.getTitle()).concat("\n"));
             jTextArea.append("Summary: ".concat(result.getPublicationInfo().getSummary()).concat("\n"));
             jTextArea.append("Link: "+result.getLink().concat("\n"));
