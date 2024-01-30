@@ -12,10 +12,15 @@ import java.util.concurrent.CompletableFuture;
 
 public class GoogleScholarView {
 
-    GoogleScholarController googleScholarController = new GoogleScholarController(this,new AuthorModel());
+    GoogleScholarController googleScholarController = new GoogleScholarController(this);
     JTextArea jTextArea = new JTextArea(30,100);
     JScrollPane jScrollPane = new JScrollPane(jTextArea);
     public void showOrganicResults(List<OrganicResult> results){
+        if (results == null){
+            jTextArea.append("THERE WAS AN ERROR FETCHING THE DATA");
+            JOptionPane.showMessageDialog(null,jTextArea);
+            return;
+        }
         for(OrganicResult result:results){
             jTextArea.append("=========================================================================\n");
             jTextArea.append("Title: ".concat(result.getTitle()).concat("\n"));
@@ -24,9 +29,9 @@ public class GoogleScholarView {
             jTextArea.append("Authors:".concat("\n"));
             if (result.getPublicationInfo().getAuthors()!=null){
                 for(Author author:result.getPublicationInfo().getAuthors()){
-                   CompletableFuture<Void> futureAuthor = this.googleScholarController
-                            .fetchDataFromAuthorApi(Constants.BASE_GOOGLE_SCHOLAR_URL,author.getAuthorId());
-                    futureAuthor.thenRun(()-> this.showAuthorInfo(this.googleScholarController.getAuthorModel())).join();
+                   CompletableFuture<AuthorModel> futureAuthor = this.googleScholarController
+                            .fetchDataFromAuthorApi(author.getAuthorId());
+                    futureAuthor.thenAccept(authorModel-> this.showAuthorInfo(authorModel)).join();
                 }
             }
             else {

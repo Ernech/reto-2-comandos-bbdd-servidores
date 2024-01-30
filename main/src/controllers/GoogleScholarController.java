@@ -16,76 +16,80 @@ import views.GoogleScholarView;
 public class GoogleScholarController {
 
     private GoogleScholarView view;
-    private GoogleScholarModel model;
     private  HttpClient client;
-    private AuthorModel authorModel;
 
-    public GoogleScholarController(GoogleScholarView view, AuthorModel authorModel){
+    public GoogleScholarController(GoogleScholarView view){
         this.view = view;
-        this.authorModel = authorModel;
         this.client= HttpClient.newHttpClient();
     }
 
-    public GoogleScholarController(GoogleScholarView view, GoogleScholarModel model) {
-        this.view = view;
-        this.model = model;
-        this.client = HttpClient.newHttpClient();
-    }
 
-    public CompletableFuture<Void> fetchDataFromApiAsync(String url){
-        return CompletableFuture.runAsync(()->{
+    public CompletableFuture<GoogleScholarModel> fetchDataFromApiAsync() {
+        return CompletableFuture.supplyAsync(() -> {
             try {
-
-            URI finalUrl = URI.create(url).resolve(String.format("search.json?engine=%s&q=%s&start=%s&num=%s&api_key=%s",
-                    Constants.GOOGLE_SCHOLAR_ENGINE,
-                    "Universidad%20de%20méxico",
-                    "0","10",
-                    Constants.API_KEY.trim()));
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(finalUrl)
-                    .build();
-
-            HttpResponse<String> response = this.client.send(request,HttpResponse.BodyHandlers.ofString());
-            ObjectMapper objectMapper = new ObjectMapper();
-            GoogleScholarModel googleScholarModel = objectMapper.readValue(response.body(),GoogleScholarModel.class);
-            this.setModel(googleScholarModel);
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+                URI finalUrl = this.buildApiUrl("search.json", Constants.GOOGLE_SCHOLAR_ENGINE, Constants.API_KEY.trim(),
+                        "q", "Universidad%20de%20méxico",
+                        "start", "0",
+                        "num", "10");
+                return makeApiRequestAsync(finalUrl)
+                        .thenApply(response -> {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            try {
+                                return objectMapper.readValue(response.body(), GoogleScholarModel.class);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                return null;
+                            }
+                        })
+                        .join();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         });
-
-
     }
 
-    public CompletableFuture<Void> fetchDataFromAuthorApi(String url, String authorId){
-            return CompletableFuture.runAsync(()->{
-               try{
-                    URI finalUrl = URI.create(url).resolve(String.format("search.json?engine=%s&author_id=%s&api_key=%s"
-                        ,Constants.GOOGLE_SCHOLAR_AUTHOR_ENGINE,
-                        authorId,
-                            Constants.API_KEY.trim()));
-                    HttpRequest httpRequest = HttpRequest
-                        .newBuilder().uri(finalUrl).build();
-                    HttpResponse<String> response = this.client.send(httpRequest,HttpResponse.BodyHandlers.ofString());
+
+    public CompletableFuture<AuthorModel> fetchDataFromAuthorApi(String authorId) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                URI finalUrl = buildApiUrl("search.json", Constants.GOOGLE_SCHOLAR_AUTHOR_ENGINE, Constants.API_KEY.trim(),
+                        "author_id", authorId);
+                return makeApiRequestAsync(finalUrl).thenApply(response -> {
                     ObjectMapper objectMapper = new ObjectMapper();
-                    AuthorModel authorModel = objectMapper.readValue(response.body(),AuthorModel.class);
-                    this.setAuthorModel(authorModel);
-
-               } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            });
-
-
+                    try {
+                        return objectMapper.readValue(response.body(), AuthorModel.class);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }).join();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        });
     }
-    private void setModel(GoogleScholarModel model){
-        this.model = model;
+
+    private URI buildApiUrl(String endpoint, String engine, String apiKey, String... params) {
+        String apiUrl = String.format("%s%s?engine=%s&api_key=%s", Constants.BASE_GOOGLE_SCHOLAR_URL, endpoint, engine, apiKey);
+        for (int i = 0; i < params.length; i += 2) {
+            apiUrl += String.format("&%s=%s", params[i], params[i + 1]).trim();
+        }
+        return URI.create(apiUrl);
     }
-    private void setAuthorModel(AuthorModel model) {this.authorModel=model;}
-    public AuthorModel getAuthorModel() {return this.authorModel;}
-    public void updateView(){
-        view.showOrganicResults(this.model.getOrganicResults());
+
+    private CompletableFuture<HttpResponse<String>> makeApiRequestAsync(URI finalUrl) {
+        HttpRequest request = HttpRequest.newBuilder().uri(finalUrl).build();
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    public void updateView(GoogleScholarModel model){
+        if (model!=null){
+            view.showOrganicResults(model.getOrganicResults());
+            return;
+        }
+        view.showOrganicResults(null);
+
     }
 }
