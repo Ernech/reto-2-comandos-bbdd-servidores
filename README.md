@@ -1,3 +1,19 @@
+#Reto 2: Comandos para servidores y bases de datos
+##To execute this project
+1. Download the project
+2. Set your Api key in the <b>Constants</b> class
+```
+package resources;
+
+public class Constants {
+
+    public static final String BASE_GOOGLE_SCHOLAR_URL = "https://serpapi.com/";
+    public static final String API_KEY = "MY_API_KEY"; <-- Your api key
+    public static final String GOOGLE_SCHOLAR_ENGINE="google_scholar";
+    public static final String GOOGLE_SCHOLAR_AUTHOR_ENGINE="google_scholar_author";
+}
+
+```
 # Google Scholar API
 
 Our Google Scholar API allows you to scrape SERP results from a Google Scholar search query. The API is accessed through the following endpoint: ```/search?engine=google_scholar```.
