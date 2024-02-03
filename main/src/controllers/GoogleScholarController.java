@@ -8,6 +8,7 @@ import java.net.http.HttpResponse;
 
 import java.util.concurrent.CompletableFuture;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import models.dao.AuthorDao;
 import models.googlescholar.GoogleScholarModel;
 import models.googlescholar.author.AuthorModel;
 import resources.Constants;
@@ -17,10 +18,11 @@ public class GoogleScholarController {
 
     private GoogleScholarView view;
     private  HttpClient client;
-
+    private AuthorDao authorDao;
     public GoogleScholarController(GoogleScholarView view){
         this.view = view;
         this.client= HttpClient.newHttpClient();
+        this.authorDao=new AuthorDao();
     }
 
 
@@ -59,6 +61,7 @@ public class GoogleScholarController {
                     ObjectMapper objectMapper = new ObjectMapper();
                     try {
                         return objectMapper.readValue(response.body(), AuthorModel.class);
+
                     } catch (IOException e) {
                         e.printStackTrace();
                         return null;

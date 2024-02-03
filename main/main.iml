@@ -10,5 +10,6 @@
     <orderEntry type="library" exported="" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.16.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.fasterxml.jackson.core:jackson-core:2.16.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.16.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: mysql:mysql-connector-java:8.0.28" level="project" />
   </component>
 </module>
