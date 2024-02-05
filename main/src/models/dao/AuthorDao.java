@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorDao {
@@ -36,7 +37,7 @@ public class AuthorDao {
     }
 
     public List<AuthorDto> getTopAuthorsByCitations() throws SQLException{
-        List<AuthorDto> topAuthors = null;
+        List<AuthorDto> topAuthors=new ArrayList<>();
         String sql="SELECT `author_name`, `email`,`carrer`, `citations`, `affiliations` FROM `authors`\n" +
                 "ORDER BY `citations` DESC LIMIT 10;";
         ConnectionDB connectionDB = new ConnectionDB();

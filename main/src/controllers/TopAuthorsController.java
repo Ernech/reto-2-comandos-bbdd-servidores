@@ -19,7 +19,7 @@ public class TopAuthorsController {
         this.authorDao = new AuthorDao();
     }
 
-    public List<AuthorDto> getTopAuthorsView(){
+    public List<AuthorDto> getTopAuthorsList(){
         try {
             return authorDao.getTopAuthorsByCitations();
         }catch (SQLException ex){
@@ -30,7 +30,7 @@ public class TopAuthorsController {
     }
 
     public void updateView(List<AuthorDto> authors){
-
+            this.topAuthorsView.showAuthors(authors);
     }
 
 
