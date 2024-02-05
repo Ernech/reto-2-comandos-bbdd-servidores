@@ -31,7 +31,7 @@ public class GoogleScholarController {
             try {
                 URI finalUrl = this.buildApiUrl("search.json", Constants.GOOGLE_SCHOLAR_ENGINE, Constants.API_KEY.trim(),
                         "q", "Universidad%20de%20méxico",
-                        "start", "10",
+                        "start", "40",
                         "num", "10");
                 return makeApiRequestAsync(finalUrl)
                         .thenApply(response -> {
