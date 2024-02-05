@@ -31,7 +31,7 @@ public class GoogleScholarController {
             try {
                 URI finalUrl = this.buildApiUrl("search.json", Constants.GOOGLE_SCHOLAR_ENGINE, Constants.API_KEY.trim(),
                         "q", "Universidad%20de%20méxico",
-                        "start", "0",
+                        "start", "10",
                         "num", "10");
                 return makeApiRequestAsync(finalUrl)
                         .thenApply(response -> {
@@ -60,8 +60,9 @@ public class GoogleScholarController {
                 return makeApiRequestAsync(finalUrl).thenApply(response -> {
                     ObjectMapper objectMapper = new ObjectMapper();
                     try {
-                        return objectMapper.readValue(response.body(), AuthorModel.class);
-
+                        AuthorModel authorModel = objectMapper.readValue(response.body(), AuthorModel.class);
+                        authorDao.insertAuthor(authorModel);
+                        return authorModel;
                     } catch (IOException e) {
                         e.printStackTrace();
                         return null;
