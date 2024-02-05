@@ -1,12 +1,15 @@
 package models.dao;
 
 import database.ConnectionDB;
+import models.dto.AuthorDto;
 import models.googlescholar.author.AuthorModel;
 
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AuthorDao {
 
@@ -30,6 +33,24 @@ public class AuthorDao {
             JOptionPane.showMessageDialog(null,"Error during author creation: ".concat(exception.getMessage()));
         }
 
+    }
+
+    public List<AuthorDto> getTopAuthorsByCitations() throws SQLException{
+        List<AuthorDto> topAuthors = null;
+        String sql="SELECT `author_name`, `email`,`carrer`, `citations`, `affiliations` FROM `authors`\n" +
+                "ORDER BY `citations` DESC LIMIT 10;";
+        ConnectionDB connectionDB = new ConnectionDB();
+        Connection connection = (Connection) connectionDB.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()){
+            topAuthors.add(new AuthorDto(resultSet.getString("author_name"),
+                    resultSet.getString("email"),
+                    resultSet.getString("carrer"),
+                    resultSet.getBigDecimal("citations").toBigInteger(),
+                    resultSet.getString("affiliations")));
+        }
+        return topAuthors;
     }
 
     private String getAuthorId(AuthorModel authorModel){

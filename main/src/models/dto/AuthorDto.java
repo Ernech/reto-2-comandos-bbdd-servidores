@@ -13,6 +13,14 @@ public class AuthorDto {
     public AuthorDto() {
     }
 
+    public AuthorDto(String authorName, String email, String carrer, BigInteger citations, String affiliations) {
+        this.authorName = authorName;
+        this.email = email;
+        this.carrer = carrer;
+        this.citations = citations;
+        this.affiliations = affiliations;
+    }
+
     public String getAuthorName() {
         return authorName;
     }
