@@ -1,38 +1,29 @@
 package views;
 
-import models.dao.AuthorDao;
+import controllers.TopAuthorsController;
 import models.dto.AuthorDto;
 
-import java.sql.SQLException;
+import javax.swing.*;
 import java.util.List;
 
 public class TopAuthorsView {
 
-    private TopAuthorsView topAuthorsView;
-    private AuthorDao authorDao;
-    public TopAuthorsView() {
-    }
+    TopAuthorsController topAuthorsController = new TopAuthorsController(this);
 
-    public TopAuthorsView(TopAuthorsView topAuthorsView) {
-        this.topAuthorsView = topAuthorsView;
-        this.authorDao = new AuthorDao();
-    }
+    JTextArea jTextArea = new JTextArea(30,150);
+    JScrollPane jScrollPane = new JScrollPane(jTextArea);
 
-    public List<AuthorDto> getTopAuthorsView(){
-        try {
-            return authorDao.getTopAuthorsByCitations();
-        }catch (SQLException ex){
-            ex.printStackTrace();
-            return null;
+    public void showAuthors(List<AuthorDto> authors){
+        jTextArea.append("===============TOP 10 AUTHORS FROM UNIVERSIDAD DE MÉXICO===============");
+        jTextArea.append("-----------------------------------------------------------------------");
+        jTextArea.append("Name\tEmail\tProfession\tAffiliation\tNumber of citations\n");
+        for (AuthorDto author: authors){
+            jTextArea.append(author.getAuthorName().concat("\t").concat(author.getEmail()).concat("\t")
+            .concat(author.getCarrer()).concat("\t").concat(author.getAffiliations()).concat(author.getCitations().toString()).concat("\n"));
+
         }
-
+        JOptionPane.showMessageDialog(null,jScrollPane);
     }
-
-    public void updateView(List<AuthorDto> authors){
-
-    }
-
-
 
 
 }
