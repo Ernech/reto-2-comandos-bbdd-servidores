@@ -8,20 +8,20 @@ import java.util.List;
 
 public class TopAuthorsView {
 
-    TopAuthorsController topAuthorsController = new TopAuthorsController(this);
 
-    JTextArea jTextArea = new JTextArea(30,100);
+    JTextArea jTextArea = new JTextArea(30,50);
     JScrollPane jScrollPane = new JScrollPane(jTextArea);
 
     public void showAuthors(List<AuthorDto> authors){
         if(authors!=null){
-            jTextArea.append("===============TOP 10 AUTHORS FROM UNIVERSIDAD DE MÉXICO===============\n");
-            jTextArea.append("-----------------------------------------------------------------------\n");
-            jTextArea.append("Name\t\tEmail\t\tProfession\t\tAffiliation\t\tNumber of citations\n");
+            jTextArea.append("===========TOP 10 AUTHORS FROM UNIVERSIDAD DE MÉXICO==========\n");
             for (AuthorDto author: authors){
-                jTextArea.append(author.getAuthorName().concat("\t\t").concat(author.getEmail()).concat("\t\t")
-                        .concat(author.getCarrer()).concat("\t\t").concat(author.getAffiliations()).concat("\t\t")
-                        .concat(author.getCitations().toString()).concat("\n"));
+                jTextArea.append("*********************************************************************\n");
+                jTextArea.append("Author: ".concat(author.getAuthorName().concat("\n")));
+                jTextArea.append("Email: ".concat(author.getEmail()).concat("\n"));
+                jTextArea.append("Title: ".concat(author.getCarrer()).concat("\n"));
+                jTextArea.append("Affiliation: ".concat(author.getAffiliations()).concat("\n"));
+                jTextArea.append("CITATIONS: ".concat(author.getCitations().toString().concat("\n")));
 
             }
             JOptionPane.showMessageDialog(null,jScrollPane);
