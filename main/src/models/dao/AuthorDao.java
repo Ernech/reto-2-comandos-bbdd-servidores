@@ -19,7 +19,7 @@ public class AuthorDao {
         String sql = "INSERT INTO `authors` (`author_id`, `author_name`, `carrer`,`citations`,`email`,`affiliations`) \n" +
                 "VALUES (?,?,?,?,?,?)";
         ConnectionDB connectionDB =  new ConnectionDB();
-        Connection connection = (Connection) connectionDB.getConnection();
+        Connection connection = connectionDB.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,this.getAuthorId(authorModel));
@@ -41,7 +41,7 @@ public class AuthorDao {
         String sql="SELECT `author_name`, `email`,`carrer`, `citations`, `affiliations` FROM `authors`\n" +
                 "ORDER BY `citations` DESC LIMIT 10;";
         ConnectionDB connectionDB = new ConnectionDB();
-        Connection connection = (Connection) connectionDB.getConnection();
+        Connection connection = connectionDB.getConnection();
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()){
