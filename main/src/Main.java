@@ -40,8 +40,12 @@ public class Main {
     public static void getAuthors(){
         TopAuthorsView topAuthorsView = new TopAuthorsView();
         TopAuthorsController topAuthorsController = new TopAuthorsController(topAuthorsView);
+        new Thread(() -> {
+            JOptionPane.showMessageDialog(null, "Fetching authors from Data base...");
+        }).start();
         List<AuthorDto> authors = topAuthorsController.getTopAuthorsList();
         topAuthorsController.updateView(authors);
+        JOptionPane.getRootFrame().dispose();
     }
     public static void googleScholarApi(){
         GoogleScholarView view = new GoogleScholarView();

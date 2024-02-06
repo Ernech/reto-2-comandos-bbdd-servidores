@@ -32,7 +32,7 @@ public class GoogleScholarController {
                 URI finalUrl = this.buildApiUrl("search.json", Constants.GOOGLE_SCHOLAR_ENGINE, Constants.API_KEY.trim(),
                         "q", "Universidad%20de%20méxico",
                         "start", "80",
-                        "num", "3");
+                        "num", "10");
                 return makeApiRequestAsync(finalUrl)
                         .thenApply(response -> {
                             ObjectMapper objectMapper = new ObjectMapper();
