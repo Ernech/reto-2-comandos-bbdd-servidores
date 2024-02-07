@@ -3,6 +3,7 @@ package models.dao;
 import database.ConnectionDB;
 import models.dto.AuthorDto;
 import models.googlescholar.author.AuthorModel;
+import resources.Constants;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -31,6 +32,9 @@ public class AuthorDao {
             statement.executeUpdate();
             connection.close();
         }catch (SQLException exception){
+            if(exception.getErrorCode()== Constants.DUPLICATE_KEY_CODE){
+                return;
+            }
             JOptionPane.showMessageDialog(null,"Error during author creation: ".concat(exception.getMessage()));
         }
 
