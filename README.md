@@ -1,17 +1,22 @@
 #Reto 2: Comandos para servidores y bases de datos
 ##To execute this project
 1. Download the project
-2. Set your Api key in the <b>Constants</b> class
+2. Set your Api key, DB_NAME, DB_USER and DB_PASSWORD in the <b>Constants</b> class
 ```
 package resources;
 
 public class Constants {
 
     public static final String BASE_GOOGLE_SCHOLAR_URL = "https://serpapi.com/";
-    public static final String API_KEY = "MY_API_KEY"; <-- Your api key
+    public static final String API_KEY = System.getenv("MY_API_KEY");
     public static final String GOOGLE_SCHOLAR_ENGINE="google_scholar";
     public static final String GOOGLE_SCHOLAR_AUTHOR_ENGINE="google_scholar_author";
+    public static final String DB_NAME=System.getenv("DB_NAME");
+    public static final String DB_USER=System.getenv("DB_USER");
+    public static final String DB_PASSWORD=System.getenv("DB_PASSWORD");
+    public static final int DUPLICATE_KEY_CODE =1062;
 }
+
 
 ```
 # Google Scholar API
